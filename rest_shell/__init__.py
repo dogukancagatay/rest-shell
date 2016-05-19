@@ -75,7 +75,7 @@ def run(location):
     if not os.environ.get('TOKEN'):
         print "WARNING! No TOKEN specified, running without authentication"
 
-    app.run('0.0.0.0', port=int(port), debug=True, ssl_context='adhoc')
+    app.run('0.0.0.0', port=int(port), debug=True)
 
 
 class RestShellClient(cmd.Cmd):
