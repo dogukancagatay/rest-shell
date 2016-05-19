@@ -5,8 +5,8 @@ setup(
     name='rest-shell',
     version='0.1',
     author = 'Trey Tabner',
-    author_email = 'trey@tabner.com',
-    url = 'https://github.com/treytabner/rest-shell',
+    author_email = 'kejiqing@gmail.com',
+    url = 'https://github.com/passionke/rest-shell',
     packages=['rest_shell'],
     entry_points={
         'console_scripts': [
@@ -15,7 +15,6 @@ setup(
     },
     install_requires=[
         'Flask',
-        'pyOpenSSL',
         'requests',
     ],
     license='GPLv3',
