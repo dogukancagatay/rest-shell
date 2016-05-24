@@ -70,12 +70,12 @@ def run(location):
     """ Run the web server with Python flask"""
 
     # Grab the port to start the server on
-    (_, port) = location.split(':')
+    (host, port) = location.split(':')
 
     if not os.environ.get('TOKEN'):
         print "WARNING! No TOKEN specified, running without authentication"
 
-    app.run('0.0.0.0', port=int(port), debug=True)
+    app.run(host, port=int(port), debug=False)
 
 
 class RestShellClient(cmd.Cmd):
