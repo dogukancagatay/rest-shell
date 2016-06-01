@@ -17,7 +17,7 @@ Installation is easy with pip, but you may need some OpenSSL development header 
 
 #+BEGIN_SRC sh
 apt-get install libssl-dev
-pip install git+https://github.com/treytabner/rest-shell.git
+pip install git+https://github.com/passionke/rest-shell.git
 #+END_SRC
 
 ** Components
