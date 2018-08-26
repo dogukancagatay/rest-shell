@@ -70,12 +70,12 @@ def run(location):
     """ Run the web server with Python flask"""
 
     # Grab the port to start the server on
-    (host, port) = location.split(':')
+    (_, port) = location.split(':')
 
     if not os.environ.get('TOKEN'):
-        print "WARNING! No TOKEN specified, running without authentication"
+        print("WARNING! No TOKEN specified, running without authentication")
 
-    app.run(host, port=int(port), debug=False)
+    app.run('0.0.0.0', port=int(port), debug=True, ssl_context='adhoc')
 
 
 class RestShellClient(cmd.Cmd):
@@ -97,8 +97,8 @@ class RestShellClient(cmd.Cmd):
                                      data=simplejson.dumps(payload),
                                      headers=headers,
                                      verify=False)
-        except requests.exceptions.ConnectionError, err:
-            print err
+        except requests.exceptions.ConnectionError as err:
+            print(err)
             sys.exit(1)
 
         if response.status_code == 200:
@@ -106,9 +106,9 @@ class RestShellClient(cmd.Cmd):
             return data.get('output', "")
 
         elif response.status_code == 401:
-            print "Authentication failed, do you have TOKEN set properly?"
+            print("Authentication failed, do you have TOKEN set properly?")
         else:
-            print "Unknown error, code %s" % response.status_code
+            print("Unknown error, code %s" % response.status_code)
 
         sys.exit(1)
 
@@ -124,7 +124,7 @@ class RestShellClient(cmd.Cmd):
 
     def default(self, line):
         """ Remotely execute command """
-        print self.remote_execute(line).strip()
+        print(self.remote_execute(line).strip())
 
     @staticmethod
     def do_EOF(line):  # pylint: disable=C0103,W0613
