@@ -1,4 +1,4 @@
-* The RESTful shell
+* The RESTful shell (with Python3 support)
 
 This is a RESTful shell that gives you command line access to a server that does not provide another means of shell access.  If you are limited to an API to interact with your server, this tool may work for you.
 
@@ -16,7 +16,7 @@ This is a RESTful shell that gives you command line access to a server that does
 Installation is easy with pip, but you may need some OpenSSL development header files:
 
 #+BEGIN_SRC sh
-pip install git+https://github.com/passionke/rest-shell.git
+pip install git+https://github.com/mitsukomegumi/rest-shell.git
 #+END_SRC
 
 ** Components
@@ -103,15 +103,3 @@ An example using HTTPie:
 #+BEGIN_SRC sh
 echo '{"command": "uname -sr"}' | http --verify=no https://localhost:8080/execute X-Auth-Token:hackme
 #+END_SRC
-
-** Todo
-
-In some order of priority:
-
-- Ability to fork off server into background
-- Add support for timing out on the server side
-- Ability to change remote and local directories (with prompt updates)
-- Ability ability to upload and download files in the client
-- Shell completion and history commands
-- Option to return stdout and stderr separately instead of combined in the server API
-- Deal with stdin limitations (currently limited to shell pipelining)
