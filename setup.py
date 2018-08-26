@@ -2,11 +2,11 @@ from setuptools import setup
 
 
 setup(
-    name='rest-shell',
+    name='py3-rest-shell',
     version='0.3',
-    author = 'Trey Tabner',
-    author_email = 'kejiqing@gmail.com',
-    url = 'https://github.com/passionke/rest-shell',
+    author = 'Mitsuko Megumi',
+    author_email = 'mitsukomegumii@gmail.com',
+    url = 'https://github.com/mitsukomegumi/rest-shell',
     packages=['rest_shell'],
     entry_points={
         'console_scripts': [
