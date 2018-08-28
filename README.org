@@ -16,7 +16,7 @@ This is a RESTful shell that gives you command line access to a server that does
 Installation is easy with pip, but you may need some OpenSSL development header files:
 
 #+BEGIN_SRC sh
-pip install git+https://github.com/mitsukomegumi/rest-shell.git
+pip install py3-rest-shell
 #+END_SRC
 
 ** Components
