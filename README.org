@@ -35,6 +35,12 @@ To start the server, use rest-shell with the server option and supply the URL fo
 TOKEN=hackme rest-shell --server localhost:8080
 #+END_SRC
 
+By default, HTTP server starts with adhoc HTTPS, while it is not recommended, you can disable HTTPS for testing purposes.
+
+#+BEGIN_SRC sh
+TOKEN=hackme rest-shell --server --no-ssl localhost:8080
+#+END_SRC
+
 *** Client
 
 To connect to the API with the command line client, use rest-shell and supply the URL for your endpoint.  You will also need to set the TOKEN environment variable here to match the server, otherwise you won't get access.  For example:
