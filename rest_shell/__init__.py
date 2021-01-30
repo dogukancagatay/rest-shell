@@ -66,7 +66,7 @@ def execute():
     return flask.jsonify(response)
 
 
-def run(location):
+def run(location, no_ssl=False):
     """ Run the web server with Python flask"""
 
     # Grab the port to start the server on
@@ -75,17 +75,25 @@ def run(location):
     if not os.environ.get('TOKEN'):
         print("WARNING! No TOKEN specified, running without authentication")
 
-    app.run('0.0.0.0', port=int(port), debug=True, ssl_context='adhoc')
+    if no_ssl:
+        app.run('0.0.0.0', port=int(port), debug=True)
+    else:
+        app.run('0.0.0.0', port=int(port), debug=True, ssl_context='adhoc')
 
 
 class RestShellClient(cmd.Cmd):
     """ Command shell implementation for RESTful Shell API """
     intro = "Welcome to the RESTful shell!"
     location = ""
+    no_ssl= False
 
     def remote_execute(self, command):
         """ Send HTTP request to API and return output """
-        endpoint = "https://%s/execute" % self.location
+        if self.no_ssl:
+            endpoint = "http://%s/execute" % self.location
+        else:
+            endpoint = "https://%s/execute" % self.location
+
         payload = {'command': command}
         headers = {
             'Content-Type': 'application/json',
@@ -142,15 +150,18 @@ def main():
     parser = argparse.ArgumentParser(description="Start a RESTful shell")
     parser.add_argument('--server', action='store_true',
                         help="Launch server instead of client")
+    parser.add_argument('--no-ssl', action='store_true',
+                        help="Launch server without SSL/TLS security", default=False)
     parser.add_argument('location', help="Use specified endpoint, "
                                          "example: localhost:8080")
     args = parser.parse_args()
 
     if args.server:
-        run(args.location)
+        run(args.location, args.no_ssl)
     else:
         client = RestShellClient()
         client.location = args.location
+        client.no_ssl = args.no_ssl
         try:
             client.cmdloop()
         except KeyboardInterrupt:
