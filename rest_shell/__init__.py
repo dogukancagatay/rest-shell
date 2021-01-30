@@ -35,17 +35,17 @@ import requests
 import simplejson
 
 
-app = flask.Flask('rest-shell')
+app = flask.Flask("rest-shell")
 
 
-@app.route('/execute', methods=['POST'])
+@app.route("/execute", methods=["POST"])
 def execute():
     """ Execute supplied command and return response """
-    apikey = flask.request.headers.get('X-Auth-Token')
-    if apikey != os.environ.get('TOKEN'):
+    apikey = flask.request.headers.get("X-Auth-Token")
+    if apikey != os.environ.get("TOKEN"):
         return "Check your auth TOKEN", 401
 
-    command = flask.request.json.get('command')
+    command = flask.request.json.get("command")
 
     if not command:
         return 400
@@ -59,26 +59,26 @@ def execute():
         output = stdout.read()
 
     response = {
-        'status': status,
-        'output': output,
+        "status": status,
+        "output": output,
     }
 
     return flask.jsonify(response)
 
 
-def run(location, no_ssl=False):
+def run(location="0.0.0.0:8080", no_ssl=False):
     """ Run the web server with Python flask"""
 
     # Grab the port to start the server on
-    (_, port) = location.split(':')
+    (loc, port) = location.split(":")
 
-    if not os.environ.get('TOKEN'):
+    if not os.environ.get("TOKEN"):
         print("WARNING! No TOKEN specified, running without authentication")
 
     if no_ssl:
-        app.run('0.0.0.0', port=int(port), debug=True)
+        app.run(loc, port=int(port), debug=True)
     else:
-        app.run('0.0.0.0', port=int(port), debug=True, ssl_context='adhoc')
+        app.run(loc, port=int(port), debug=True, ssl_context="adhoc")
 
 
 class RestShellClient(cmd.Cmd):
@@ -94,10 +94,10 @@ class RestShellClient(cmd.Cmd):
         else:
             endpoint = "https://%s/execute" % self.location
 
-        payload = {'command': command}
+        payload = {"command": command}
         headers = {
-            'Content-Type': 'application/json',
-            'X-Auth-Token': os.environ.get('TOKEN'),
+            "Content-Type": "application/json",
+            "X-Auth-Token": os.environ.get("TOKEN"),
         }
 
         try:
@@ -111,7 +111,7 @@ class RestShellClient(cmd.Cmd):
 
         if response.status_code == 200:
             data = response.json()
-            return data.get('output', "")
+            return data.get("output", "")
 
         elif response.status_code == 401:
             print("Authentication failed, do you have TOKEN set properly?")
@@ -123,7 +123,7 @@ class RestShellClient(cmd.Cmd):
     def preloop(self):
         """ Setup the prompt """
 
-        user = self.remote_execute('whoami')
+        user = self.remote_execute("whoami")
         self.prompt = "[https://%s@%s] " % (user.strip(), self.location)
 
     def emptyline(self):
@@ -148,12 +148,12 @@ class RestShellClient(cmd.Cmd):
 def main():
     """ Parse arguments and run either the server or client """
     parser = argparse.ArgumentParser(description="Start a RESTful shell")
-    parser.add_argument('--server', action='store_true',
+    parser.add_argument("--server", action="store_true",
                         help="Launch server instead of client")
-    parser.add_argument('--no-ssl', action='store_true',
+    parser.add_argument("--no-ssl", action="store_true",
                         help="Launch server without SSL/TLS security", default=False)
-    parser.add_argument('location', help="Use specified endpoint, "
-                                         "example: localhost:8080")
+    parser.add_argument("location", help="Use specified endpoint, "
+                                         "example: 0.0.0.0:8080")
     args = parser.parse_args()
 
     if args.server:
@@ -168,5 +168,5 @@ def main():
             pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
