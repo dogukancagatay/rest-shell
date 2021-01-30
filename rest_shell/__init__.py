@@ -26,13 +26,13 @@ to interact with your server, this tool may work for you.
 import argparse
 import cmd
 import os
-import simplejson
 import subprocess
 import sys
 import tempfile
 
 import flask
 import requests
+import simplejson
 
 
 app = flask.Flask('rest-shell')
